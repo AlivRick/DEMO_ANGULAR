@@ -1,0 +1,35 @@
+<div class="home-container">
+  <h1>Welcome to Angular Shop</h1>
+  {{searchTerm}}
+  <div class="search-container">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (ngModelChange)="filterProducts()"
+      placeholder="Search products..."
+      class="search-input"
+    >
+  </div>
+
+  <ng-container *ngIf="loading; else notLoading">
+    <p>Loading...</p>
+  </ng-container>
+
+  <ng-template #notLoading>
+    <ng-container *ngIf="error; else productList">
+      <div class="error">
+        <p>{{ error }}</p>
+        <button (click)="loadProducts()">Try Again</button>
+      </div>
+    </ng-container>
+  
+    <ng-template #productList>
+      <div class="products-grid">
+        <app-product-card
+          *ngFor="let product of filteredProducts"
+          [product]="product"
+        ></app-product-card>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
